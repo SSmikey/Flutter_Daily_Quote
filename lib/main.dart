@@ -6,10 +6,12 @@ import 'pages/categories_page.dart';
 import 'pages/favorites_page.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (_) => QuoteProvider(),
-    child: const QuoteApp(),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => QuoteProvider(),
+      child: const QuoteApp(),
+    ),
+  );
 }
 
 class QuoteApp extends StatelessWidget {
@@ -20,7 +22,10 @@ class QuoteApp extends StatelessWidget {
       brightness: Brightness.light,
       primarySwatch: Colors.pink,
       scaffoldBackgroundColor: const Color(0xFFFFF5F8),
-      appBarTheme: const AppBarTheme(backgroundColor: Colors.white, foregroundColor: Colors.black),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
     );
   }
 
@@ -28,7 +33,10 @@ class QuoteApp extends StatelessWidget {
     return ThemeData(
       brightness: Brightness.dark,
       primarySwatch: Colors.pink,
-      appBarTheme: const AppBarTheme(backgroundColor: Colors.black, foregroundColor: Colors.white),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+      ),
     );
   }
 
