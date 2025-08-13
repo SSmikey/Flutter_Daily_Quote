@@ -8,6 +8,8 @@ class HomePage extends StatelessWidget {
 
   Widget _topBox(BuildContext c, QuoteProvider prov) {
     final qotd = prov.quoteOfTheDay();
+    final currentQuote = prov.current;
+    if (currentQuote == null) return const SizedBox();
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),

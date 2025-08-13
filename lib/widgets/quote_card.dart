@@ -23,6 +23,18 @@ class _QuoteCardState extends State<QuoteCard> {
   String displayedAuthor = "";
 
   @override
+void didUpdateWidget(covariant QuoteCard oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  if (oldWidget.quote != widget.quote) {
+    setState(() {
+      displayedQuote = widget.quote.quote;
+      displayedAuthor = widget.quote.author;
+      isTranslated = false; // รีเซ็ตการแปล
+    });
+  }
+}
+
+  @override
   void initState() {
     super.initState();
     displayedQuote = widget.quote.quote;
