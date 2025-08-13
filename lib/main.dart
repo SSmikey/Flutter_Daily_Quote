@@ -4,6 +4,7 @@ import 'providers/quote_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/categories_page.dart';
 import 'pages/favorites_page.dart';
+import 'pages/translate_page.dart';
 
 void main() {
   runApp(
@@ -100,6 +101,7 @@ class _MainNavigationState extends State<MainNavigation> {
     HomePage(),
     CategoriesPage(),
     FavoritesPage(),
+    TranslatePage(originalQuote:''),
   ];
 
   void _onItemTapped(int index) {
@@ -130,6 +132,10 @@ class _MainNavigationState extends State<MainNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Translate',
           ),
         ],
       ),

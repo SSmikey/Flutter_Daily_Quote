@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:translator/translator.dart'; // ✅ เพิ่ม
 import '../models/quote.dart';
 import '../providers/quote_provider.dart';
 
-class QuoteCard extends StatelessWidget {
+class QuoteCard extends StatefulWidget {
   final Quote quote;
   final bool showActions;
 
@@ -12,9 +13,59 @@ class QuoteCard extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<QuoteCard> createState() => _QuoteCardState();
+}
+
+class _QuoteCardState extends State<QuoteCard> {
+  final translator = GoogleTranslator();
+  bool isTranslated = false;
+  String displayedQuote = "";
+  String displayedAuthor = "";
+
+  @override
+  void initState() {
+    super.initState();
+    displayedQuote = widget.quote.quote;
+    displayedAuthor = widget.quote.author;
+  }
+
+  Future<void> _toggleTranslation() async {
+    if (isTranslated) {
+      // กลับเป็นต้นฉบับ
+      setState(() {
+        displayedQuote = widget.quote.quote;
+        displayedAuthor = widget.quote.author;
+        isTranslated = false;
+      });
+    } else {
+      try {
+        final translationQuote = await translator.translate(
+          widget.quote.quote,
+          from: 'en',
+          to: 'th', // ✅ แปลเป็นภาษาไทย
+        );
+        final translationAuthor = await translator.translate(
+          widget.quote.author,
+          from: 'en',
+          to: 'th',
+        );
+        setState(() {
+          displayedQuote = translationQuote.text;
+          displayedAuthor = translationAuthor.text;
+          isTranslated = true;
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Translation failed')),
+        );
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final prov = Provider.of<QuoteProvider>(context);
-    final isFav = prov.isFavorite(quote);
+    final isFav = prov.isFavorite(widget.quote);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -46,7 +97,7 @@ class QuoteCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    '"${quote.quote}"',
+                    '"$displayedQuote"',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -62,7 +113,7 @@ class QuoteCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                '- ${quote.author}',
+                '- $displayedAuthor',
                 style: TextStyle(
                   color: Colors.pink.shade400,
                   fontWeight: FontWeight.w500,
@@ -70,8 +121,8 @@ class QuoteCard extends StatelessWidget {
                 ),
               ),
             ),
-            if (showActions) const SizedBox(height: 16),
-            if (showActions)
+            if (widget.showActions) const SizedBox(height: 16),
+            if (widget.showActions)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -85,14 +136,14 @@ class QuoteCard extends StatelessWidget {
                         isFav ? 'Remove from favorites' : 'Add to favorites',
                     onPressed: () {
                       if (isFav) {
-                        prov.removeFavorite(quote);
+                        prov.removeFavorite(widget.quote);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Removed from favorites'),
                           ),
                         );
                       } else {
-                        prov.addFavorite(quote);
+                        prov.addFavorite(widget.quote);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Saved to favorites')),
                         );
@@ -101,10 +152,17 @@ class QuoteCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   IconButton(
+                    icon: const Icon(Icons.translate,
+                        color: Colors.pink, size: 26),
+                    tooltip: 'Translate',
+                    onPressed: _toggleTranslation,
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
                     icon: const Icon(Icons.share, color: Colors.pink, size: 26),
                     tooltip: 'Share',
                     onPressed: () {
-                      Share.share('"${quote.quote}" — ${quote.author}');
+                      Share.share('"${displayedQuote}" — ${displayedAuthor}');
                     },
                   ),
                 ],
