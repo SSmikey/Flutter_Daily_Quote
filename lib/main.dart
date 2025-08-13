@@ -21,6 +21,7 @@ class QuoteApp extends StatelessWidget {
     return ThemeData(
       brightness: Brightness.light,
       primarySwatch: Colors.pink,
+      fontFamily: 'Kanit',
       scaffoldBackgroundColor: const Color(0xFFFFF5F8),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
@@ -48,6 +49,7 @@ class QuoteApp extends StatelessWidget {
     return ThemeData(
       brightness: Brightness.dark,
       primarySwatch: Colors.pink,
+      fontFamily: 'Kanit',
       scaffoldBackgroundColor: const Color(0xFF18181A),
       appBarTheme: const AppBarTheme(
         backgroundColor: Color(0xFF23232B),
