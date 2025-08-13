@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/quote_provider.dart';
 import '../widgets/quote_card.dart';
-
+//new
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
