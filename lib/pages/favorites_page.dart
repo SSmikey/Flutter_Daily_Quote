@@ -10,12 +10,38 @@ class FavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov = Provider.of<QuoteProvider>(context);
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF5F8),
-      appBar: AppBar(title: const Text('My Favorites')),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: const Text('My Favorites',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: prov.favorites.isEmpty
-          ? Center(child: Text('No favorites yet. Tap ❤ to save a quote!', style: TextStyle(color: Colors.grey[700])))
-          : ListView(
-              children: prov.favorites.map((q) => QuoteCard(quote: q)).toList(),
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.favorite_border,
+                      color: Colors.pink.shade200, size: 60),
+                  const SizedBox(height: 18),
+                  Text(
+                    'No favorites yet',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 8),
+                  Text('Tap the heart icon to save a quote!',
+                      style: TextStyle(color: Colors.grey[500])),
+                ],
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              itemCount: prov.favorites.length,
+              itemBuilder: (context, i) => QuoteCard(quote: prov.favorites[i]),
             ),
     );
   }
