@@ -4,6 +4,8 @@ import 'providers/quote_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/categories_page.dart';
 import 'pages/favorites_page.dart';
+import 'package:your_project/widgets/sound_button.dart';
+
 
 void main() {
   runApp(ChangeNotifierProvider(
