@@ -41,6 +41,7 @@ lib/
 └── services/
   └── api_service.dart # ฟังก์ชันเรียก API 
   └── favorites_services.dart # ฟังก์ชันจัดการคมที่ถูกใจ
+```
 
 ## ตัวอย่างหน้าจอผู้ใช้งาน (User Interface)
 ![หน้าจอแอป](./assets/images/ui-1.png)
